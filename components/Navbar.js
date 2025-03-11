@@ -93,7 +93,7 @@ export default function Navbar({ isDarkMode, toggleDarkMode }) {
   ];
 
   return (
-    <nav className={`fixed top-0 left-0 flex flex-col h-screen ${isCollapsed ? 'w-16' : 'w-64'} ${isDarkMode ? 'bg-gray-900' : 'bg-white'} border-r ${isDarkMode ? 'border-gray-800' : 'border-gray-200'} shadow-lg z-50 transition-all duration-300`}>
+    <nav className={`fixed top-0 left-0 flex flex-col h-screen ${isCollapsed ? 'w-16' : 'w-44'} ${isDarkMode ? 'bg-gray-900' : 'bg-white'} border-r ${isDarkMode ? 'border-gray-800' : 'border-gray-200'} shadow-lg z-50 transition-all duration-300`}>
       {/* Logo */}
       <div className="mt-6 mb-8 px-4 flex items-center">
         <motion.div 
