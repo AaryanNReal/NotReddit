@@ -80,69 +80,69 @@ export default function SavedPosts() {
 
   return (
     <Layout>
-      <div className="min-h-screen ml-52 bg-gray-900">
-        <div className="max-w-7xl mx-auto px-4 py-8">
-          <h1 className="text-3xl font-bold text-white mb-6">Saved Posts</h1>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {savedTheories.length === 0 ? (
-              <div className="col-span-full text-center py-12 bg-gray-800 rounded-xl">
-                <p className="text-gray-400 text-lg">No saved posts yet</p>
-              </div>
-            ) : (
-              savedTheories.map((theory, index) => (
-                <motion.div
-                  key={theory.id}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: index * 0.1 }}
-                  className="bg-gray-800 rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 flex flex-col group hover:-translate-y-1"
-                >
-                  {theory.mediaUrl ? (
-                    <div className="relative aspect-[4/3]">
-                      <img
-                        src={theory.mediaUrl}
-                        alt="Theory media"
-                        className="w-full h-full object-cover "
-                      />
-                      
-                    </div>
-                  ) : (
-                    <div className="relative aspect-[4/3] bg-gradient-to-br from-purple-600/20 to-blue-500/20 flex items-center justify-center">
-                      <svg className="w-12 h-12 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
-                      </svg>
-                    </div>
-                  )}
-                  <div className="p-5 flex-1 flex flex-col">
-                    <div className="flex items-center justify-between mb-3">
-                      <h3 className="text-lg font-semibold text-white line-clamp-1">
-                        {theory.title || 'Untitled Theory'}
-                      </h3>
-                      <span className="text-sm text-gray-400">
-                        {getTimeAgo(theory.createdAt)}
-                      </span>
-                    </div>
-                    <p className="text-gray-300 mb-4 line-clamp-2">
-                      {theory.description}
-                    </p>
-                    <div className="mt-auto flex items-center justify-between text-gray-400 text-sm">
-                      
-                      <div className="flex items-center space-x-2">
-                        <button
-                          onClick={() => handleUnsave(theory.id)}
-                          className="text-red-400 hover:text-red-300 transition-colors duration-200"
-                        >
-                          Unsave
-                        </button>
-                      </div>
-                    </div>
-                  </div>
-                </motion.div>
-              ))
-            )}
-          </div>
-        </div>
+ 
+      <div className="min-h-screen bg-gray-900 px-4 sm:px-6 lg:px-8 ml-52">
+      
+<div className="max-w-7xl mx-auto px-4 py-8">
+  <h1 className="text-3xl font-bold text-white mb-6">Saved Posts</h1>
+  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+    {savedTheories.length === 0 ? (
+      <div className="col-span-full text-center py-12 bg-gray-800 rounded-xl">
+        <p className="text-gray-400 text-lg">No saved posts yet</p>
       </div>
+    ) : (
+      savedTheories.map((theory, index) => (
+        <motion.div
+          key={theory.id}
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: index * 0.1 }}
+          className="bg-gray-800 rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 flex flex-col group hover:-translate-y-1"
+        >
+          {theory.mediaUrl ? (
+            <div className="relative aspect-[4/3]">
+              <img
+                src={theory.mediaUrl}
+                alt="Theory media"
+                className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+              />
+            </div>
+          ) : (
+            <div className="relative aspect-[4/3] bg-gradient-to-br from-purple-600/20 to-blue-500/20 flex items-center justify-center">
+              <svg className="w-12 h-12 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
+              </svg>
+            </div>
+          )}
+          <div className="p-5 flex-1 flex flex-col">
+            <div className="flex items-center justify-between mb-3">
+              <h3 className="text-lg font-semibold text-white line-clamp-1">
+                {theory.title || 'Untitled Theory'}
+              </h3>
+              <span className="text-sm text-gray-400">
+                {getTimeAgo(theory.createdAt)}
+              </span>
+            </div>
+            <p className="text-gray-300 mb-4 line-clamp-2">
+              {theory.description}
+            </p>
+            <div className="mt-auto flex items-center justify-between text-gray-400 text-sm">
+              <div className="flex items-center space-x-2">
+                <button
+                  onClick={() => handleUnsave(theory.id)}
+                  className="text-red-400 hover:text-red-300 transition-colors duration-200"
+                >
+                  Unsave
+                </button>
+              </div>
+            </div>
+          </div>
+        </motion.div>
+      ))
+    )}
+  </div>
+</div>
+</div>
     </Layout>
   );
 }

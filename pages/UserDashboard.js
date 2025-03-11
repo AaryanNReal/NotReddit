@@ -138,119 +138,96 @@ export default function UserDashboard() {
 
     return (
         <Layout>
-            <div className="min-h-screen ml-44 bg-gray-900">
+        
+            <div className="min-h-screen bg-gray-900 px-4 sm:px-6 lg:px-8 ml-28">
                 <div className="max-w-7xl ml-12 mx-auto px-4 py-8">
                     {/* Profile Header */}
-                    <div className="bg-gray-800 rounded-xl p-6 mb-6 shadow-lg">
-                        <div className="flex flex-col md:flex-row items-center md:items-start space-y-4 md:space-y-0 md:space-x-6">
-                            <motion.div
-                                initial={{ opacity: 0, scale: 0.5 }}
-                                animate={{ opacity: 1, scale: 1 }}
-                                transition={{ duration: 0.3 }}
-                            >
-                                <img
-                                    src={user?.photoURL || '/default-avatar.png'}
-                                    alt={user?.displayName || 'User'}
-                                    className="w-32 h-32 rounded-full border-4 border-purple-500 shadow-lg object-cover"
-                                />
-                            </motion.div>
-                            
-                            <div className="flex-1 text-center md:text-left">
-                                <motion.h1 
-                                    initial={{ opacity: 0, y: 20 }}
-                                    animate={{ opacity: 1, y: 0 }}
-                                    className="text-3xl font-bold text-white mb-2"
-                                >
-                                    {user?.displayName}
-                                </motion.h1>
-                                
-                                <motion.p 
-                                    initial={{ opacity: 0, y: 20 }}
-                                    animate={{ opacity: 1, y: 0 }}
-                                    transition={{ delay: 0.1 }}
-                                    className="text-gray-400 mb-4 max-w-2xl"
-                                >
-                                    {user?.bio || 'No bio available'}
-                                </motion.p>
+                    
+<div className="bg-gray-800 rounded-xl p-6 mb-6 shadow-lg">
+  <div className="flex flex-col md:flex-row items-center md:items-start space-y-4 md:space-y-0 md:space-x-6">
+    <motion.div
+      initial={{ opacity: 0, scale: 0.5 }}
+      animate={{ opacity: 1, scale: 1 }}
+      transition={{ duration: 0.3 }}
+    >
+      <img
+        src={user?.photoURL || '/default-avatar.png'}
+        alt={user?.displayName || 'User'}
+        className="w-32 h-32 rounded-full border-4 border-purple-500 shadow-lg object-cover"
+      />
+    </motion.div>
 
-                                
-                            </div>
-                        </div>
-
-                        {/* Stats Tabs */}
-                        <div className="mt-8 border-t border-gray-700 pt-6">
-                            
-                        </div>
+    <div className="flex-1 text-center md:text-left">
+      <motion.h1 
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        className="text-3xl font-bold text-white mb-2"
+      >
+        {user?.displayName}
+      </motion.h1>
+      
+      <motion.p 
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.1 }}
+        className="text-gray-400 mb-4 max-w-2xl"
+      >
+        {user?.bio || 'No bio available'}
+      </motion.p>
+    </div>
+  
+</div>
+                       
                     </div>
 
-                    {/* Theories Grid */}
-                    {selectedTab === 'theories' && (
-                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                            {activities.length === 0 ? (
-                                <div className="col-span-full text-center py-12 bg-gray-800 rounded-xl">
-                                    <svg className="mx-auto h-12 w-12 text-gray-400 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
-                                    </svg>
-                                    <p className="text-gray-400 text-lg">{user?.displayName} hasn't posted any theories yet</p>
-                                </div>
-                            ) : (
-                                activities.map((activity, index) => (
-                                    <motion.div
-                                        key={activity.id}
-                                        initial={{ opacity: 0, y: 20 }}
-                                        animate={{ opacity: 1, y: 0 }}
-                                        transition={{ delay: index * 0.1 }}
-                                        className="bg-gray-800 rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 flex flex-col"
-                                    >
-                                        {activity.mediaUrl && (
-                                            <div className="relative aspect-video">
-                                                <img
-                                                    src={activity.mediaUrl}
-                                                    alt="Theory media"
-                                                    className="w-full h-full object-cover"
-                                                />
-                                            </div>
-                                        )}
-                                        <div className="p-5 flex-1">
-                                            <h3 className="text-xl font-semibold text-white mb-2">
-                                                {activity.title}
-                                            </h3>
-                                            <p className="text-gray-400 mb-4">
-                                                {activity.description}
-                                            </p>
-                                            <div className="flex items-center justify-between text-sm text-gray-500">
-                                                <span>{getTimeAgo(activity.createdAt)}</span>
-                                                <button 
-                                                    onClick={() => router.push(`/theory/${activity.id}`)}
-                                                    className="text-purple-500 hover:text-purple-400"
-                                                >
-                                                    Read More
-                                                </button>
-                                            </div>
-                                        </div>
-                                    </motion.div>
-                                ))
-                            )}
-                        </div>
-                    )}
-
-                    {/* Followers Tab */}
-                    {selectedTab === 'followers' && (
-                        <div className="bg-gray-800 rounded-xl p-6">
-                            {userStats.followers.length === 0 ? (
-                                <div className="text-center py-8 text-gray-400">
-                                    No followers yet
-                                </div>
-                            ) : (
-                                <div className="space-y-4">
-                                    {/* Add followers list here when implementing */}
-                                    <div className="text-center py-8 text-gray-400">
-                                        Followers list coming soon
-                                    </div>
-                                </div>
-                            )}
-                        </div>
-                    )}
+                 
+<div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+  {activities.length === 0 ? (
+    <div className="col-span-full text-center py-12 bg-gray-800 rounded-xl">
+      <svg className="mx-auto h-12 w-12 text-gray-400 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
+      </svg>
+      <p className="text-gray-400 text-lg">{user?.displayName} hasn't posted any theories yet</p>
+    </div>
+  ) : (
+    activities.map((activity, index) => (
+      <motion.div
+        key={activity.id}
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: index * 0.1 }}
+        className="bg-gray-800 rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 flex flex-col"
+      >
+        {activity.mediaUrl && (
+          <div className="relative aspect-video">
+            <img
+              src={activity.mediaUrl}
+              alt="Theory media"
+              className="w-full h-full object-cover"
+            />
+          </div>
+        )}
+        <div className="p-5 flex-1">
+          <h3 className="text-xl font-semibold text-white mb-2">
+            {activity.title}
+          </h3>
+          <p className="text-gray-400 mb-4">
+            {activity.description}
+          </p>
+          <div className="flex items-center justify-between text-sm text-gray-500">
+            <span>{getTimeAgo(activity.createdAt)}</span>
+            <button 
+              onClick={() => router.push(`/theory/${activity.id}`)}
+              className="text-purple-500 hover:text-purple-400"
+            >
+              Read More
+            </button>
+          </div>
+        </div>
+      </motion.div>
+    ))
+  )}
+</div>
 
                     {/* Following Tab */}
                     {selectedTab === 'following' && (
