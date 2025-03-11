@@ -139,7 +139,7 @@ export default function UserDashboard() {
     return (
         <Layout>
         
-            <div className="min-h-screen bg-gray-900 px-4 sm:px-6 lg:px-8 ml-28">
+            <div className="min-h-screen bg-gray-900 px-4 sm:px-6 lg:px-8">
                 <div className="max-w-7xl ml-12 mx-auto px-4 py-8">
                     {/* Profile Header */}
                     
