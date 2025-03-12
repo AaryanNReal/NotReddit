@@ -121,8 +121,7 @@ export default function UserDashboard() {
   return (
     <Layout>
      
-
-<div className="min-h-screen bg-gray-900 px-4 sm:px-6 lg:px-8">
+     <div className="min-h-screen  px-4 sm:px-6 lg:px-8">
         <div className="max-w-7xl mx-auto px-4 py-8">
           {/* Profile Header */}
          
@@ -255,7 +254,7 @@ export default function UserDashboard() {
                 </span>
               </div>
               <div className="flex items-center space-x-2">
-                
+               
                 <button
                   className="text-red-400 hover:text-red-300 transition-colors duration-200"
                   onClick={() => handleDeleteTheory(activity.id)}
@@ -270,6 +269,8 @@ export default function UserDashboard() {
     )}
   </div>
 </div>
+
+
 
 </div>
       </div>

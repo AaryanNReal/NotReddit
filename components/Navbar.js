@@ -8,11 +8,12 @@ import { motion } from 'framer-motion';
 export default function Navbar({ isDarkMode, toggleDarkMode }) {
   const router = useRouter();
   const [isCollapsed, setIsCollapsed] = useState(false);
-  const [searchQuery, setSearchQuery] = useState('');
+  const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
     const handleResize = () => {
       setIsCollapsed(window.innerWidth < 768);
+      setIsMobile(window.innerWidth < 768);
     };
 
     // Initial check
@@ -36,7 +37,6 @@ export default function Navbar({ isDarkMode, toggleDarkMode }) {
 
   const navItems = [
     {
-      name: 'Home',
       path: '/feet',
       icon: (
         <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -45,7 +45,6 @@ export default function Navbar({ isDarkMode, toggleDarkMode }) {
       )
     },
     {
-      name: 'For You',
       path: '/for-you',
       icon: (
         <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -54,7 +53,6 @@ export default function Navbar({ isDarkMode, toggleDarkMode }) {
       )
     },
     {
-      name: 'Messages',
       path: '/chat',
       icon: (
         <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -63,7 +61,6 @@ export default function Navbar({ isDarkMode, toggleDarkMode }) {
       )
     },
     {
-      name: 'Search',
       path: '/search',
       icon: (
         <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -72,7 +69,6 @@ export default function Navbar({ isDarkMode, toggleDarkMode }) {
       )
     },
     {
-      name: 'Create Post',
       path: '/theory-form',
       icon: (
         <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -81,7 +77,6 @@ export default function Navbar({ isDarkMode, toggleDarkMode }) {
       )
     },
     {
-      name: 'Profile',
       path: '/Dashboard',
       icon: (
         <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -89,41 +84,40 @@ export default function Navbar({ isDarkMode, toggleDarkMode }) {
         </svg>
       )
     },
-  
   ];
 
   return (
-    <nav className={`fixed top-0 left-0 flex flex-col h-screen ${isCollapsed ? 'w-16' : 'w-44'} ${isDarkMode ? 'bg-gray-900' : 'bg-white'} border-r ${isDarkMode ? 'border-gray-800' : 'border-gray-200'} shadow-lg z-50 transition-all duration-300`}>
+    <nav className={`fixed ${isMobile ? 'bottom-0 w-full h-1' : 'top-0 left-0 h-screen w-20'} flex ${isMobile ? 'flex-row' : 'flex-col'} ${isDarkMode ? 'bg-gray-900' : 'bg-white'} border-r ${isDarkMode ? 'border-gray-800' : 'border-gray-200'} shadow-lg z-50 transition-all duration-300`}>
       {/* Logo */}
-      <div className="mt-6 mb-8 px-4 flex items-center">
+      <div className={`mt-6 mb-8 px-4 flex items-center ${isMobile ? 'hidden' : 'block'}`}>
         <motion.div 
           whileHover={{ scale: 1.05 }}
           className="cursor-pointer flex items-center"
           onClick={() => router.push('/feet')}
         >
-          <div className="relative w-8 h-8 flex items-center justify-center bg-gradient-to-br from-purple-600 to-blue-500 rounded-lg shadow-lg">
+          <div className="relative w-8 h-8 ml-1 flex items-center justify-center bg-gradient-to-br from-purple-600 to-blue-500 rounded-lg shadow-lg">
             <svg className="w-5 h-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} 
                 d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
             </svg>
           </div>
           {!isCollapsed && (
-            <span className="ml-3 text-xl font-bold bg-gradient-to-r from-purple-600 to-blue-500 text-transparent bg-clip-text">
-              NotInsta
+            <span className="ml- text-xl font-bold bg-gradient-to-r from-purple-600 to-blue-500 text-transparent bg-clip-text">
+             
             </span>
           )}
         </motion.div>
       </div>
 
       {/* Navigation Items */}
-      <div className="flex-1 flex flex-col space-y-2 px-3">
+      <div className={`flex-1 flex ${isMobile ? 'flex-row justify-around' : 'flex-col space-y-2 px-3'}`}>
         {navItems.map((item) => (
           <motion.button
-            key={item.name}
+            key={item.path}
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
             onClick={() => router.push(item.path)}
-            className={`flex items-center px-3 py-3 rounded-xl ${
+            className={`flex items-center ${isMobile ? 'justify-center' : 'px-3 py-3'} rounded-xl ${
               router.pathname === item.path
                 ? 'bg-purple-500 text-white'
                 : `${isDarkMode ? 'text-gray-400 hover:text-white hover:bg-gray-800' : 'text-gray-600 hover:text-gray-900 hover:bg-gray-100'}`
@@ -132,7 +126,7 @@ export default function Navbar({ isDarkMode, toggleDarkMode }) {
             <div className="flex items-center justify-center w-6">
               {item.icon}
             </div>
-            {!isCollapsed && (
+            {!isCollapsed && !isMobile && (
               <span className="ml-4 font-medium">
                 {item.name}
               </span>
@@ -142,7 +136,7 @@ export default function Navbar({ isDarkMode, toggleDarkMode }) {
       </div>
 
       {/* Bottom Section */}
-      <div className="mt-auto px-3 mb-8 space-y-2">
+      <div className={`mt-auto px-3 mb-8 space-y-2 ${isMobile ? 'hidden' : 'block'}`}>
         {/* Dark Mode Toggle */}
         <motion.button
           whileHover={{ scale: 1.02 }}
@@ -163,7 +157,7 @@ export default function Navbar({ isDarkMode, toggleDarkMode }) {
           </div>
           {!isCollapsed && (
             <span className="ml-4 font-medium">
-              {isDarkMode ? 'Light Mode' : 'Dark Mode'}
+              
             </span>
           )}
         </motion.button>
@@ -182,7 +176,7 @@ export default function Navbar({ isDarkMode, toggleDarkMode }) {
           </div>
           {!isCollapsed && (
             <span className="ml-4 font-medium">
-              Sign Out
+              
             </span>
           )}
         </motion.button>

@@ -115,7 +115,7 @@ export default function SearchPage() {
 
     return (
         <Layout>
-            <div className="min-h-screen bg-gray-900">
+            <div className="min-h-screen ">
                 <div className="max-w-4xl mx-auto px-4 py-8">
                     {/* Search Header */}
                     <div className="text-center mb-8">
