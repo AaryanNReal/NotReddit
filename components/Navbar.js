@@ -8,12 +8,11 @@ import { motion } from 'framer-motion';
 export default function Navbar({ isDarkMode, toggleDarkMode }) {
   const router = useRouter();
   const [isCollapsed, setIsCollapsed] = useState(false);
-  const [isMobile, setIsMobile] = useState(false);
+  const [searchQuery, setSearchQuery] = useState('');
 
   useEffect(() => {
     const handleResize = () => {
       setIsCollapsed(window.innerWidth < 768);
-      setIsMobile(window.innerWidth < 768);
     };
 
     // Initial check
@@ -37,6 +36,7 @@ export default function Navbar({ isDarkMode, toggleDarkMode }) {
 
   const navItems = [
     {
+      
       path: '/feet',
       icon: (
         <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -45,6 +45,7 @@ export default function Navbar({ isDarkMode, toggleDarkMode }) {
       )
     },
     {
+      
       path: '/for-you',
       icon: (
         <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -53,6 +54,7 @@ export default function Navbar({ isDarkMode, toggleDarkMode }) {
       )
     },
     {
+      
       path: '/chat',
       icon: (
         <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -61,6 +63,7 @@ export default function Navbar({ isDarkMode, toggleDarkMode }) {
       )
     },
     {
+      
       path: '/search',
       icon: (
         <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -69,6 +72,7 @@ export default function Navbar({ isDarkMode, toggleDarkMode }) {
       )
     },
     {
+     
       path: '/theory-form',
       icon: (
         <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -77,6 +81,7 @@ export default function Navbar({ isDarkMode, toggleDarkMode }) {
       )
     },
     {
+      
       path: '/Dashboard',
       icon: (
         <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -84,12 +89,13 @@ export default function Navbar({ isDarkMode, toggleDarkMode }) {
         </svg>
       )
     },
+  
   ];
 
   return (
-    <nav className={`fixed ${isMobile ? 'bottom-0 w-full h-16' : 'top-0 left-0 h-screen w-20'} flex ${isMobile ? 'flex-row' : 'flex-col'} ${isDarkMode ? 'bg-gray-900' : 'bg-white'} border-r ${isDarkMode ? 'border-gray-800' : 'border-gray-200'} shadow-lg z-50 transition-all duration-300`}>
+    <nav className={`fixed top-0 left-0 flex flex-col h-screen ${isCollapsed ? 'w-16' : 'w-20'} ${isDarkMode ? 'bg-gray-900' : 'bg-white'} border-r ${isDarkMode ? 'border-gray-800' : 'border-gray-200'} shadow-lg z-50 transition-all duration-300`}>
       {/* Logo */}
-      <div className={`mt-6 mb-8 px-4 flex items-center ${isMobile ? 'hidden' : 'block'}`}>
+      <div className="mt-6 mb-8 px-4 flex items-center">
         <motion.div 
           whileHover={{ scale: 1.05 }}
           className="cursor-pointer flex items-center"
@@ -110,14 +116,14 @@ export default function Navbar({ isDarkMode, toggleDarkMode }) {
       </div>
 
       {/* Navigation Items */}
-      <div className={`flex-1 flex ${isMobile ? 'flex-row justify-around' : 'flex-col space-y-2 px-3'}`}>
+      <div className="flex-1 flex flex-col space-y-2 px-3">
         {navItems.map((item) => (
           <motion.button
-            key={item.path}
+            key={item.name}
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
             onClick={() => router.push(item.path)}
-            className={`flex items-center ${isMobile ? 'justify-center' : 'px-3 py-3'} rounded-xl ${
+            className={`flex items-center px-3 py-3 rounded-xl ${
               router.pathname === item.path
                 ? 'bg-purple-500 text-white'
                 : `${isDarkMode ? 'text-gray-400 hover:text-white hover:bg-gray-800' : 'text-gray-600 hover:text-gray-900 hover:bg-gray-100'}`
@@ -126,7 +132,7 @@ export default function Navbar({ isDarkMode, toggleDarkMode }) {
             <div className="flex items-center justify-center w-6">
               {item.icon}
             </div>
-            {!isCollapsed && !isMobile && (
+            {!isCollapsed && (
               <span className="ml-4 font-medium">
                 {item.name}
               </span>
@@ -136,7 +142,7 @@ export default function Navbar({ isDarkMode, toggleDarkMode }) {
       </div>
 
       {/* Bottom Section */}
-      <div className={`mt-auto px-3 mb-8 space-y-2 ${isMobile ? 'hidden' : 'block'}`}>
+      <div className="mt-auto px-3 mb-8 space-y-2">
         {/* Dark Mode Toggle */}
         <motion.button
           whileHover={{ scale: 1.02 }}
