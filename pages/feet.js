@@ -20,6 +20,7 @@ export default function Feed() {
   const [comments, setComments] = useState({});
   const [stories, setStories] = useState([]);
   const [likeInProgress, setLikeInProgress] = useState({});
+  const [isCollapsed, setIsCollapsed] = useState(false);
   const [isDarkMode, setIsDarkMode] = useState(() => {
     if (typeof window !== 'undefined') {
       const saved = localStorage.getItem('darkMode');
@@ -27,6 +28,21 @@ export default function Feed() {
     }
     return false;
   });
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsCollapsed(window.innerWidth < 768);
+    };
+
+    // Initial check
+    handleResize();
+
+    // Add event listener
+    window.addEventListener('resize', handleResize);
+
+    // Cleanup
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
@@ -315,24 +331,58 @@ export default function Feed() {
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
               <div className="md:col-span-2 space-y-6">
                 {/* Stories Section */}
-                <div className="flex space-x-4 bg-gray-800 rounded-lg p-2 overflow-x-auto pb-4">
-                <div className="flex-shrink-0 w-20 h-24 rounded-full bg-gray-200 dark:bg-gray-700 flex items-center justify-center cursor-pointer" onClick={() => router.push('/add-story')}>
-                  <svg className="w-12 h-12 text-gray-500 dark:text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
-                  </svg>
-                </div>
-                {stories.map((story) => (
-                  <div key={story.id} className="flex-shrink-0 w-20 h-20 rounded-full bg-gray-200 dark:bg-gray-700 cursor-pointer" onClick={() => handleStoryClick(story.id)}>
-                    <img
-                      src={story.mediaUrl}
-                      alt={story.userDisplayName}
-                      className="w-full h-full object-cover rounded-full"
-                    />
-                    <p className="text-center text-sm text-gray-700 dark:text-gray-300 mt-1">{story.userDisplayName}</p>
-                  </div>
-                ))}
-              </div>
-  
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+  <div className="md:col-span-2 space-y-6">
+    {/* Stories Section */}
+    <div className="flex space-x-4 bg-gray-800 rounded-lg p-2 overflow-x-auto pb-4">
+      <div
+        className={`flex-shrink-0 ${
+          isCollapsed ? 'w-16 h-16' : 'w-20 h-24'
+        } rounded-full bg-gray-200 dark:bg-gray-700 flex items-center justify-center cursor-pointer`}
+        onClick={() => router.push('/add-story')}
+      >
+        <svg
+          className={`${
+            isCollapsed ? 'w-8 h-8' : 'w-12 h-12'
+          } text-gray-500 dark:text-gray-400`}
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth={2}
+            d="M12 4v16m8-8H4"
+          />
+        </svg>
+      </div>
+      {stories.map((story) => (
+        <div
+          key={story.id}
+          className={`flex-shrink-0 ${
+            isCollapsed ? 'w-16 h-16' : 'w-20 h-20'
+          } rounded-full bg-gray-200 dark:bg-gray-700 cursor-pointer`}
+          onClick={() => handleStoryClick(story.id)}
+        >
+          <img
+            src={story.mediaUrl}
+            alt={story.userDisplayName}
+            className="w-full h-full object-cover rounded-full"
+          />
+          <p
+            className={`text-center text-sm ${
+              isCollapsed ? 'text-xs' : 'text-sm'
+            } text-gray-700 dark:text-gray-300 mt-1`}
+          >
+            {story.userDisplayName}
+          </p>
+        </div>
+      ))}
+    </div>
+  </div>
+</div>
+
                 {/* Theories Section */}
                 {theories.map((theory) => (
                   <motion.div

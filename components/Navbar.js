@@ -36,7 +36,7 @@ export default function Navbar({ isDarkMode, toggleDarkMode }) {
 
   const navItems = [
     {
-      
+      name:"Feet",
       path: '/feet',
       icon: (
         <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -54,7 +54,7 @@ export default function Navbar({ isDarkMode, toggleDarkMode }) {
       )
     },
     {
-      
+      name:"Chat",
       path: '/chat',
       icon: (
         <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -63,7 +63,7 @@ export default function Navbar({ isDarkMode, toggleDarkMode }) {
       )
     },
     {
-      
+      name:"Search",
       path: '/search',
       icon: (
         <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -72,7 +72,7 @@ export default function Navbar({ isDarkMode, toggleDarkMode }) {
       )
     },
     {
-     
+     name:"Post",
       path: '/theory-form',
       icon: (
         <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -81,7 +81,7 @@ export default function Navbar({ isDarkMode, toggleDarkMode }) {
       )
     },
     {
-      
+      name:"Profile",
       path: '/Dashboard',
       icon: (
         <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -93,7 +93,7 @@ export default function Navbar({ isDarkMode, toggleDarkMode }) {
   ];
 
   return (
-    <nav className={`fixed top-0 left-0 flex flex-col h-screen ${isCollapsed ? 'w-16' : 'w-20'} ${isDarkMode ? 'bg-gray-900' : 'bg-white'} border-r ${isDarkMode ? 'border-gray-800' : 'border-gray-200'} shadow-lg z-50 transition-all duration-300`}>
+    <nav className={`fixed top-0 left-0 flex flex-col h-screen ${isCollapsed ? 'w-16' : 'w-32'} ${isDarkMode ? 'bg-gray-900' : 'bg-white'} border-r ${isDarkMode ? 'border-gray-800' : 'border-gray-200'} shadow-lg z-50 transition-all duration-300`}>
       {/* Logo */}
       <div className="mt-6 mb-8 px-4 flex items-center">
         <motion.div 
@@ -108,15 +108,15 @@ export default function Navbar({ isDarkMode, toggleDarkMode }) {
             </svg>
           </div>
           {!isCollapsed && (
-            <span className="ml- text-xl font-bold bg-gradient-to-r from-purple-600 to-blue-500 text-transparent bg-clip-text">
-             
+            <span className="ml- text-xl font-bold bg-gradient-to-r ml-1 from-purple-600 to-blue-500 text-transparent bg-clip-text">
+             Insta
             </span>
           )}
         </motion.div>
       </div>
 
       {/* Navigation Items */}
-      <div className="flex-1 flex flex-col space-y-2 px-3">
+      <div className="flex-1 flex flex-col space-y-2 px-2">
         {navItems.map((item) => (
           <motion.button
             key={item.name}
@@ -142,13 +142,13 @@ export default function Navbar({ isDarkMode, toggleDarkMode }) {
       </div>
 
       {/* Bottom Section */}
-      <div className="mt-auto px-3 mb-8 space-y-2">
+      <div className="mt-auto px-3 mb-8 justify-center items-center  space-y-2">
         {/* Dark Mode Toggle */}
         <motion.button
           whileHover={{ scale: 1.02 }}
           whileTap={{ scale: 0.98 }}
           onClick={toggleDarkMode}
-          className={`flex items-center w-full px-3 py-3 rounded-xl ${isDarkMode ? 'text-yellow-400 hover:bg-gray-800' : 'text-gray-600 hover:bg-gray-100'} transition-all duration-200`}
+          className={`flex items-center w-full  p-3 rounded-xl ${isDarkMode ? 'text-yellow-400 hover:bg-gray-800' : 'text-gray-600 hover:bg-gray-100'} transition-all duration-200`}
         >
           <div className="flex items-center justify-center w-6">
             {isDarkMode ? (
@@ -173,7 +173,7 @@ export default function Navbar({ isDarkMode, toggleDarkMode }) {
           whileHover={{ scale: 1.02 }}
           whileTap={{ scale: 0.98 }}
           onClick={handleSignOut}
-          className={`flex items-center w-full px-3 py-3 rounded-xl ${isDarkMode ? 'text-gray-400 hover:text-white hover:bg-gray-800' : 'text-gray-600 hover:text-gray-900 hover:bg-gray-100'} transition-all duration-200`}
+          className={`flex items-center w-full  p-3 rounded-xl ${isDarkMode ? 'text-gray-400 hover:text-white hover:bg-gray-800' : 'text-gray-600 hover:text-gray-900 hover:bg-gray-100'} transition-all duration-200`}
         >
           <div className="flex items-center justify-center w-6">
             <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
