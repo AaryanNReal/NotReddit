@@ -18,6 +18,7 @@ export default function Feed() {
   const [activeCommentId, setActiveCommentId] = useState(null);
   const [commentText, setCommentText] = useState('');
   const [comments, setComments] = useState({});
+  const [stories, setStories] = useState([]);
   const [likeInProgress, setLikeInProgress] = useState({});
   const [isDarkMode, setIsDarkMode] = useState(() => {
     if (typeof window !== 'undefined') {
@@ -41,10 +42,32 @@ export default function Feed() {
         setLoading(false);
         fetchTheories();
         fetchTrendingTopics();
+        fetchStories();
       }
     });
     return () => unsubscribe();
   }, [router]);
+
+  const fetchStories = async () => {
+    try {
+      const storiesCollection = collection(db, 'stories');
+      const storiesQuery = query(storiesCollection, orderBy('createdAt', 'desc'));
+      const storiesSnapshot = await getDocs(storiesQuery);
+      const storiesMap = new Map();
+  
+      storiesSnapshot.docs.forEach(doc => {
+        const story = doc.data();
+        if (!storiesMap.has(story.userId)) {
+          storiesMap.set(story.userId, { id: doc.id, ...story });
+        }
+      });
+  
+      const uniqueStories = Array.from(storiesMap.values());
+      setStories(uniqueStories);
+    } catch (error) {
+      console.error("Error fetching stories:", error);
+    }
+  };
 
   const fetchTheories = async () => {
     try {
@@ -239,6 +262,8 @@ export default function Feed() {
       await updateDoc(theoryRef, {
         savedBy: isSaved ? arrayRemove(currentUserId) : arrayUnion(currentUserId),
       });
+
+     
   
       // Update user's saved theories
       const userRef = doc(db, 'users', currentUserId);
@@ -264,6 +289,9 @@ export default function Feed() {
       console.error('Error updating save:', error);
     }
   };
+  const handleStoryClick = (storyId) => {
+    router.push(`/story/${storyId}`);
+  };
 
   return (
     <Layout>
@@ -286,6 +314,26 @@ export default function Feed() {
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
               <div className="md:col-span-2 space-y-6">
+                {/* Stories Section */}
+                <div className="flex space-x-4 bg-gray-800 rounded-lg p-2 overflow-x-auto pb-4">
+                <div className="flex-shrink-0 w-20 h-24 rounded-full bg-gray-200 dark:bg-gray-700 flex items-center justify-center cursor-pointer" onClick={() => router.push('/add-story')}>
+                  <svg className="w-12 h-12 text-gray-500 dark:text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
+                  </svg>
+                </div>
+                {stories.map((story) => (
+                  <div key={story.id} className="flex-shrink-0 w-20 h-20 rounded-full bg-gray-200 dark:bg-gray-700 cursor-pointer" onClick={() => handleStoryClick(story.id)}>
+                    <img
+                      src={story.mediaUrl}
+                      alt={story.userDisplayName}
+                      className="w-full h-full object-cover rounded-full"
+                    />
+                    <p className="text-center text-sm text-gray-700 dark:text-gray-300 mt-1">{story.userDisplayName}</p>
+                  </div>
+                ))}
+              </div>
+  
+                {/* Theories Section */}
                 {theories.map((theory) => (
                   <motion.div
                     key={theory.id}
@@ -310,7 +358,7 @@ export default function Feed() {
                         </p>
                       </div>
                     </div>
-
+  
                     {/* Media Content */}
                     {theory.mediaUrl && (
                       <div className="relative">
@@ -321,15 +369,15 @@ export default function Feed() {
                         />
                       </div>
                     )}
-
-                      {theory.title && (
+  
+                    {theory.title && (
                       <div className="p-4">
                         <p className="text-gray-800 dark:text-gray-200">
                           {theory.title}
                         </p>
                       </div>
                     )}
-
+  
                     {/* Description */}
                     {theory.description && (
                       <div className="p-4">
@@ -338,7 +386,7 @@ export default function Feed() {
                         </p>
                       </div>
                     )}
-
+  
                     {/* Actions */}
                     <div className="p-4 border-t dark:border-gray-700">
                       <div className="flex items-center space-x-4">
@@ -361,7 +409,7 @@ export default function Feed() {
                           </svg>
                           <span>{theory.likes}</span>
                         </motion.button>
-
+  
                         <button
                           onClick={() => setActiveCommentId(activeCommentId === theory.id ? null : theory.id)}
                           className="flex items-center space-x-1.5 text-gray-600 dark:text-gray-400 hover:text-purple-500 dark:hover:text-purple-400"
@@ -377,7 +425,7 @@ export default function Feed() {
                           <span>{comments[theory.id]?.length || 0}</span>
                         </button>
                         
-
+  
                         <button
                           onClick={() => handleShare(theory.id)}
                           className="flex items-center space-x-1.5 text-gray-600 dark:text-gray-400 hover:text-purple-500 dark:hover:text-purple-400"
@@ -392,25 +440,25 @@ export default function Feed() {
                           </svg>
                         </button>
                         <button
-    onClick={() => handleSave(theory.id)}
-    className={`flex items-center space-x-1.5 ${
-      theory.savedBy?.includes(auth.currentUser?.uid)
-        ? 'text-green-500'
-        : 'text-gray-600 dark:text-gray-400 hover:text-green-500 dark:hover:text-green-400'
-    }`}
-  >
-    <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-      <path
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        strokeWidth={2}
-        d="M5 5v14l7-7 7 7V5H5z"
-      />
-    </svg>
-    <span>{theory.savedBy?.length || 0}</span>
-  </button>
+                          onClick={() => handleSave(theory.id)}
+                          className={`flex items-center space-x-1.5 ${
+                            theory.savedBy?.includes(auth.currentUser?.uid)
+                              ? 'text-green-500'
+                              : 'text-gray-600 dark:text-gray-400 hover:text-green-500 dark:hover:text-green-400'
+                          }`}
+                        >
+                          <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              strokeWidth={2}
+                              d="M5 5v14l7-7 7 7V5H5z"
+                            />
+                          </svg>
+                          <span>{theory.savedBy?.length || 0}</span>
+                        </button>
                       </div>
-
+  
                       {/* Comments Section */}
                       {activeCommentId === theory.id && (
                         <motion.div
@@ -437,7 +485,7 @@ export default function Feed() {
                               </p>
                             </div>
                           ))}
-
+  
                           <div className="flex space-x-2 mt-4">
                             <input
                               type="text"
@@ -460,7 +508,7 @@ export default function Feed() {
                   </motion.div>
                 ))}
               </div>
-
+  
               {/* Trending Topics Sidebar */}
               <div className="space-y-6">
                 <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border dark:border-gray-700 p-4">
@@ -496,7 +544,7 @@ export default function Feed() {
                     </p>
                   )}
                 </div>
-
+  
                 <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border dark:border-gray-700 p-4">
                   <h2 className="text-lg font-semibold mb-2 dark:text-white">Create a Post</h2>
                   <p className="text-sm text-gray-500 dark:text-gray-400 mb-4">
@@ -515,5 +563,4 @@ export default function Feed() {
         </div>
       </div>
     </Layout>
-  );
-}
+  );}
